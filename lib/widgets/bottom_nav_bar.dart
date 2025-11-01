@@ -14,6 +14,7 @@ class BottomNavBar extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(30),
+
           child: SizedBox(
             height: 70,
             child: BottomNavigationBar(
