@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screen/home_screen.dart';
+import 'screen/splash_screen.dart';
 
 void main() {
   runApp(const Hearts2HeartsApp());
@@ -14,7 +14,7 @@ class Hearts2HeartsApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Hearts2Hearts',
       theme: ThemeData(primarySwatch: Colors.lightBlue, fontFamily: 'Sans'),
-      home: const HomeScreen(),
+      home: const SplashScreen(),
     );
   }
 }
