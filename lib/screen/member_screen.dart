@@ -17,6 +17,7 @@ class MemberScreen extends StatelessWidget {
         ),
         backgroundColor: Colors.white,
         elevation: 0.0,
+        centerTitle: true,
       ),
       body: const Center(child: Text('Member Screen - Coming Soon')),
     );
