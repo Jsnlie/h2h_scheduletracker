@@ -74,13 +74,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              const Text(
-                "Hearts2Hearts",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.2,
+              Positioned(
+                top: 140, 
+                child: const Text(
+                  "Hearts2Hearts",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1.2,
+                  ),
                 ),
               ),
             ],
@@ -168,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
   AppBar appBar() {
     return AppBar(
       title: Text(
-        'H2H Schedule',
+        'HeartSync',
         textAlign: TextAlign.center,
         style: TextStyle(
           color: Colors.black,
