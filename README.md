@@ -1,6 +1,6 @@
 # h2h_scheduletracker
 
-A new Flutter project.
+This Flutter project is a mobile schedule & fan app designed for a girl group that i like call Hearts2hearts. It allows users to view upcoming events, access details like event names, dates, see what video that have been uploaded, explore member information such as names, positions, and birthdays, and learn about their discography. The app features a modern, clean interface with a bottom navigation bar for switching between the Home screen, Video Screen, and other sections. It serves as a simple yet elegant tool to help users stay connected and informed about ongoing activities of the group and team members.
 
 ## Getting Started
 
