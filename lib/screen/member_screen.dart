@@ -1,96 +1,149 @@
 import 'package:flutter/material.dart';
-import '../widgets/member.dart';
+import '../data/member_data.dart';
+import '../models/member_model.dart';
+import '../theme/app_colors.dart';
 import '../widgets/group_info.dart';
+import '../widgets/member.dart';
 
 class MemberScreen extends StatelessWidget {
   const MemberScreen({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(appBar: appBar(), body: memberProfile());
+  MemberModel _getNextBirthdayMember() {
+    MemberModel? nextMember;
+    int minDays = 366;
+
+    for (final member in membersData) {
+      final days = member.daysUntilNextBirthday();
+      if (days < minDays) {
+        minDays = days;
+        nextMember = member;
+      }
+    }
+
+    return nextMember ?? membersData.first;
   }
 
-  Widget memberProfile() {
-    return Container(
-      child: SingleChildScrollView(
+  @override
+  Widget build(BuildContext context) {
+    final nextBirthdayMember = _getNextBirthdayMember();
+    final daysRemaining = nextBirthdayMember.daysUntilNextBirthday();
+
+    return Scaffold(
+      backgroundColor: AppColors.background,
+      appBar: AppBar(
+        title: const Text(
+          'Members',
+          style: TextStyle(
+            color: AppColors.textPrimary,
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: true,
+      ),
+      body: SingleChildScrollView(
         child: Column(
-          children: const [
-            GroupInfo(),
-            SizedBox(height: 20),
-            Member(
-              memberPhoto: 'lib/assets/jiwoo.jpg',
-              memberName: 'Jiwoo (지우)',
-              position: 'Leader, Lead Dancer, Sub Vocalist, Visual',
-              dob: 'September 7, 2006',
+          children: [
+            const GroupInfo(),
+
+            // Birthday Countdown Banner
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [Color(0xFFE1F5FE), Color(0xFFFCE4EC)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: AppColors.primary.withValues(alpha: 0.2),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Text('🎉', style: TextStyle(fontSize: 20)),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Upcoming Member Birthday',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          daysRemaining == 0
+                              ? "Today is ${nextBirthdayMember.stageName}'s Birthday! 🎂"
+                              : "${nextBirthdayMember.stageName}'s Birthday in $daysRemaining days (${nextBirthdayMember.birthday.split(',').first})",
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Text(
+                    nextBirthdayMember.representativeEmoji,
+                    style: const TextStyle(fontSize: 24),
+                  ),
+                ],
+              ),
             ),
 
-            Member(
-              memberPhoto: 'lib/assets/carmen.jpg',
-              memberName: 'Carmen (카르멘)',
-              position: 'Main Vocalist',
-              dob: 'March 28, 2006',
+            const SizedBox(height: 10),
+
+            // Section Header
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'All Members (8)',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                  Text(
+                    'Tap card for full profile',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey[600],
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                ],
+              ),
             ),
 
-            Member(
-              memberPhoto: 'lib/assets/yuha.jpg',
-              memberName: 'Yuha (유하)',
-              position: 'Main Vocalist, Lead Dancer',
-              dob: 'April 12, 2007',
-            ),
+            // Members List
+            ...membersData.map((member) => MemberCard(member: member)),
 
-            Member(
-              memberPhoto: 'lib/assets/stella.jpg',
-              memberName: 'Stella (스텔라)',
-              position: 'Lead Vocalist',
-              dob: 'June 18, 2007',
-            ),
-
-            Member(
-              memberPhoto: 'lib/assets/juun.jpg',
-              memberName: 'Juun (주은)',
-              position: 'Main Rapper, Main Dancer, Sub Vocalist',
-              dob: 'December 3, 2008',
-            ),
-
-            Member(
-              memberPhoto: 'lib/assets/ana.jpg',
-              memberName: 'A-na (에이나)',
-              position: ' Rapper, Sub Vocalist, Visual',
-              dob: 'December 20, 2008',
-            ),
-
-            Member(
-              memberPhoto: 'lib/assets/ian.jpg',
-              memberName: 'Ian (이안)',
-              position: 'Lead Dancer, Sub Vocalist, Visual, Center',
-              dob: 'October 9, 2009',
-            ),
-
-            Member(
-              memberPhoto: 'lib/assets/yeon.jpg',
-              memberName: 'Ye-on (예온)',
-              position: 'Lead Vocalist, Maknae',
-              dob: 'April 19, 2010',
-            ),
+            const SizedBox(height: 24),
           ],
         ),
       ),
-    );
-  }
-
-  AppBar appBar() {
-    return AppBar(
-      title: const Text(
-        'Members',
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      backgroundColor: Colors.white,
-      elevation: 0.0,
-      centerTitle: true,
     );
   }
 }
