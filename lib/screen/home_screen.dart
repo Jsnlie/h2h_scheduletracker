@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
         onTap: _onItemTapped,
       ),
       body: _selectedIndex == 0
-          ? Schedule()
+          ? schedule()
           : _selectedIndex == 1
           ? const VideoScreen()
           : _selectedIndex == 2
@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  SingleChildScrollView Schedule() {
+  SingleChildScrollView schedule() {
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -67,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     255,
                     255,
                     255,
-                  ).withOpacity(0.3),
+                  ).withValues(alpha: 0.3),
                   borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(20),
                     bottomRight: Radius.circular(20),
@@ -75,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Positioned(
-                top: 140, 
+                top: 140,
                 child: const Text(
                   "Hearts2Hearts",
                   style: TextStyle(
